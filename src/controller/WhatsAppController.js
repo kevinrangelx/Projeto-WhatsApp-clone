@@ -135,7 +135,7 @@ class WhatsAppController {
             this.closeAllMainPanel();
             this.el.panelCamera.addClass('open');
             this.el.panelCamera.css({
-                'height':'calc(100%-120px)'
+                'height':'500px'
             });
         });
         this.el.btnClosePanelCamera.on('click', e=>{
@@ -149,12 +149,13 @@ class WhatsAppController {
             this.closeAllMainPanel();
             this.el.panelDocumentPreview.addClass('open');
             this.el.panelDocumentPreview.css({
-                'height':'calc(100%-120px)'
+                'height':'500px'
             });
         });
         this.el.btnClosePanelDocumentPreview.on('click', e=>{
             this.closeAllMainPanel();
             this.el.panelMessagesContainer.show();
+            this.startRecordMicrophoneTime();
         });
         this.el.btnSendDocument.on('click', e=> {
             console.log('send document');
@@ -165,6 +166,28 @@ class WhatsAppController {
         this.el.btnCloseModalContacts.on('click', e=>{
             this.el.modalContacts.hide();
         });
+        this.el.btnSendMicrophone.on('click', e=>{
+            this.el.recordMicrophone.show();
+            this.el.btnSendMicrophone.hide();
+        });
+        this.el.btnCancelMicrophone.on('click', e=>{
+            this.closeRecordMicrophone();
+        });
+        this.el.btnFinishMicrophone.on('click', e=>{
+            this.closeRecordMicrophone();
+        });
+    }
+        startRecordMicrophoneTime(){
+
+            let start = Date.now();
+            this._recordMicrophoneInterval = setInterval(() => {
+                this.el.recordMicrophoneTimer.innerHTML = (Date.now() - start);
+            },100);
+        }
+    closeRecordMicrophone(){
+        this.el.recordMicrophone.hide();
+        this.el.btnSendMicrophone.show();
+        clearInterval(this._recordMicrophoneInterval);
     }
     closeAllMainPanel(){
         this.el.panelMessagesContainer.hide();
